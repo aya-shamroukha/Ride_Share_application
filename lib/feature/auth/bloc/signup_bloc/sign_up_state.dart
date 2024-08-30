@@ -4,7 +4,7 @@ final class SignUpInitial extends SignUpState {}
 
 class SignUpSuccessState extends SignUpState {}
 
-class SignUpFieldState extends SignUpState {}
+class SignUpFailedState extends SignUpState {}
 
 class SignUpLoadingState extends SignUpState {}
 

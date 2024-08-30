@@ -1,34 +1,26 @@
 // ignore_for_file: avoid_print
 
 import 'package:dio/dio.dart';
-import 'package:ride_application/core/config/localstorage.dart';
-import 'package:ride_application/core/domain/model/auth/login_model.dart';
-import 'package:ride_application/core/domain/model/auth/signup_model.dart';
 import 'package:ride_application/core/domain/model/error_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../model/auth/change_password.dart';
-
-abstract class AuthService {
-  signUp(SignUpModel signup);
-
-  logIn(LogInModel login);
+abstract class CycleService {
+  getAllbicyles();
   late String baseUrl = 'https://rideshare.devscape.online/api/v1/';
+  getBicycleById(int id);
 }
 
-class AuthServiceImpl extends AuthService {
+class CycleImpl extends CycleService {
   @override
-  logIn(login) async {
+  getAllbicyles() async {
     Dio dio = Dio();
     try {
-      Response response =
-          await dio.post('${baseUrl}auth/authenticate', data: login.toJson());
+      Response response = await dio.get('${baseUrl}bicycle',
+          options: Options(headers: {
+            'accept': '*/*',
+            'Authorization':
+                'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwOTMxODI0MTA2IiwiaWF0IjoxNzI0MjM4MzE3LCJleHAiOjE3MjQzMjQ3MTd9.5-8VEugdgreTVdopD21m8h7uRjqX08Pe55IXrYqwZbw'
+          }));
       if (response.statusCode == 200) {
-        print(response);
-        print(response.data['body']['token']);
-        getIt
-            .get<SharedPreferences>()
-            .setString('token', response.data['body']['token']);
         return response.data;
       } else {
         print(ErrorModel(message: 'The Status Code is not 200').message);
@@ -41,17 +33,16 @@ class AuthServiceImpl extends AuthService {
   }
 
   @override
-  signUp(signup) async {
+  getBicycleById(id) async {
     Dio dio = Dio();
     try {
-      Response response =
-          await dio.post('${baseUrl}auth/register', data: signup.toJson());
+      Response response = await dio.get('${baseUrl}bicycle/$id',
+          options: Options(headers: {
+            'accept': '*/*',
+            'Authorization':
+                'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwOTMxODI0MTA2IiwiaWF0IjoxNzI0MjM4MzE3LCJleHAiOjE3MjQzMjQ3MTd9.5-8VEugdgreTVdopD21m8h7uRjqX08Pe55IXrYqwZbw'
+          }));
       if (response.statusCode == 200) {
-        print(response);
-        print(response.data['body']['token']);
-        getIt
-            .get<SharedPreferences>()
-            .setString('token', response.data['body']['token']);
         return response.data;
       } else {
         print(ErrorModel(message: 'The Status Code is not 200').message);

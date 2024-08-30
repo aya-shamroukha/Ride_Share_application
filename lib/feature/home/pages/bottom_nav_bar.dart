@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:ride_application/core/resources/app_color.dart';
 import 'package:ride_application/feature/auth/pages/login_screen.dart';
 import 'package:ride_application/feature/auth/pages/signup_screen.dart';
-import 'package:ride_application/feature/auth/pages/welcome_screen.dart';
 import 'package:ride_application/feature/home/pages/home_screen.dart';
+
+import '../../profile/pages/change_password.dart';
+import '../../profile/pages/profile_screen.dart';
 
 class BottomNavigationBarr extends StatefulWidget {
   const BottomNavigationBarr({super.key});
@@ -17,13 +19,7 @@ class _BottomNavigationBarrState extends State<BottomNavigationBarr> {
     const HomeScreen(),
     const LogInScreen(),
     const SignUpScreen(),
-    const WelcomeScreen()
-  ];
-  List body = [
-    const Icon(Icons.home),
-    const Icon(Icons.person),
-    const Icon(Icons.favorite),
-    const Icon(Icons.settings)
+    const ProfileScreen()
   ];
 
   @override

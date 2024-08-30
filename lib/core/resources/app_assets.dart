@@ -1,7 +1,7 @@
 class AppAssets {
   static const String basePath = 'assets/images/';
   static const String bike = '${basePath}Bike.png';
-  static const String care = '${basePath}Car.png';
+  static const String car = '${basePath}Car.png';
   static const String car1 = '${basePath}car1.png';
   static const String car2 = '${basePath}car2.png';
   static const String car3 = '${basePath}car3.png';

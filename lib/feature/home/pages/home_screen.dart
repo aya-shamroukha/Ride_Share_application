@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_final_fields, duplicate_ignore
 
 import 'dart:async';
 import 'dart:convert';
@@ -30,13 +30,16 @@ class _HomeScreenState extends State<HomeScreen> {
   // ignore: prefer_final_fields
   List<MarkerDate> _markerdate = [];
   LatLng? selectPosition;
-
+  List<LatLng> _path = [];
+  List<LatLng> _searchPath = [];
   LatLng? myLocation;
   bool isDragging = false;
   LatLng? draggedPosition;
   TextEditingController search = TextEditingController();
   List<dynamic> searchResults = [];
   bool isSearching = false;
+  //!polyline
+
 //!for my location
   void showCurrentLocation() async {
     try {
@@ -45,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
       mapController.move(currrntLatLng, 18.0);
       setState(() {
         myLocation = currrntLatLng;
+        _path.add(currrntLatLng);
       });
     } catch (e) {
       print(e);
@@ -72,6 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           width: 80,
           height: 80));
+      _path.add(position);
+      print(_path);
     });
   }
 
@@ -120,6 +126,21 @@ class _HomeScreenState extends State<HomeScreen> {
               color: AppColor.primary,
             )),
       ]);
+      _searchPath.add(myLocation!);
+      _searchPath.add(LatLng(lat, lon));
+      print('------------------');
+      print(_searchPath);
+      PolylineLayer<LatLng>(
+        polylines: _searchPath.isNotEmpty
+            ? [
+                Polyline(
+                  points: _searchPath,
+                  color: AppColor.red,
+                  strokeWidth: 6,
+                ),
+              ]
+            : [],
+      );
       //  search.clear();
     });
   }
@@ -177,9 +198,20 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
         children: [
+          PolylineLayer<LatLng>(
+            polylines: _searchPath.isNotEmpty
+                ? [
+                    Polyline(
+                      points: _searchPath,
+                      color: AppColor.red,
+                      strokeWidth: 3,
+                    ),
+                  ]
+                : [],
+          ),
           TileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'com.example.app',
+            urlTemplate: AppStrings.urlTemplate,
+            userAgentPackageName: AppStrings.userAgentName,
           ),
           MarkerLayer(markers: marker),
           if (isDragging && draggedPosition != null)
@@ -198,12 +230,19 @@ class _HomeScreenState extends State<HomeScreen> {
               markers: [
                 Marker(
                     point: myLocation!,
-                    width: 80,
-                    height: 80,
-                    child: const Icon(
-                      Icons.location_on,
-                      color: AppColor.red,
-                      size: 45,
+                    width: 45,
+                    height: 45,
+                    child: Container(
+                      width: 45.w,
+                      decoration: BoxDecoration(
+                          color: AppColor.black,
+                          borderRadius: BorderRadius.circular(100)),
+                      height: 45.h,
+                      child: Icon(
+                        Icons.emoji_people,
+                        color: AppColor.grey,
+                        size: 45,
+                      ),
                     ))
               ],
             ),
@@ -288,30 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     SizedBox_Height(height: 10.h),
-                    Container(
-                      child: Row(
-                        children: [
-                          CustomButton(
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pushNamed('selectTransport');
-                            },
-                            text: AppStrings.transport,
-                            width: 138,
-                            background: AppColor.primary,
-                            height: 40,
-                          ),
-                          CustomButton(
-                            onPressed: () {},
-                            text: AppStrings.delivery,
-                            width: 138,
-                            background: AppColor.white,
-                            height: 40,
-                            textcolor: AppColor.grey2,
-                          )
-                        ],
-                      ),
-                    ),
+                    const RowBotton(),
                   ],
                 ),
               ),
@@ -361,5 +377,36 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
     ]));
+  }
+}
+
+class RowBotton extends StatelessWidget {
+  const RowBotton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        CustomButton(
+          onPressed: () {
+            Navigator.of(context).pushNamed('selectTransport');
+          },
+          text: AppStrings.transport,
+          width: 138,
+          background: AppColor.primary,
+          height: 40,
+        ),
+        CustomButton(
+          onPressed: () {},
+          text: AppStrings.delivery,
+          width: 138,
+          background: AppColor.white,
+          height: 40,
+          textcolor: AppColor.grey2,
+        )
+      ],
+    );
   }
 }

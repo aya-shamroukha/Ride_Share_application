@@ -22,7 +22,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       if (isSuccess) {
         emit(SignUpSuccessState());
       } else {
-        emit(SignUpFieldState());
+        emit(SignUpFailedState());
       }
     });
     on<PasswordEvent>(

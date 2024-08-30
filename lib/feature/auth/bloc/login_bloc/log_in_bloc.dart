@@ -22,7 +22,7 @@ class LogInBloc extends Bloc<LogInEvent, LogInState> {
       if (isSuccess) {
         emit(LogInSuccessState());
       } else {
-        emit(LogInFieldState());
+        emit(LogInFailedState());
       }
     });
     on<PasswordEvent>(

@@ -41,16 +41,20 @@ dependencies:
   flutter_bloc:
   get_it:
   curved_navigation_bar:
-  geolocator: ^13.0.1
-  # geocoding: ^3.0.0
-  flutter_map: ^7.0.2 
+  geolocator: 
+  flutter_map: 
+  fluttertoast:
   dio:
   easy_localization:
   shared_preferences:
   smooth_page_indicator:
+  cached_network_image:
+  get: ^4.6.6
+  connectivity_plus: ^6.0.5
   http:
   latlong2: ^0.9.1
   liquid_swipe: ^3.1.0
+  shimmer:
   persistent_bottom_nav_bar: ^6.2.1
 dev_dependencies:
   flutter_test:

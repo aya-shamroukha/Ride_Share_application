@@ -31,7 +31,7 @@ TextStyle smallStyle({
 }) {
   return textStyle(
     color: color ?? AppColor.grey,
-    fontsize: fontsize ?? 16,
+    fontsize: fontsize ?? 15,
     fontWeight: FontWeight.w400,
   );
 }
